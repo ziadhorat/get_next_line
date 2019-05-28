@@ -6,12 +6,13 @@
 /*   By: zmahomed <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 13:53:55 by zmahomed          #+#    #+#             */
-/*   Updated: 2019/05/28 13:58:56 by zmahomed         ###   ########.fr       */
+/*   Updated: 2019/05/28 14:19:33 by zmahomed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdio.h>
+#include <fcntl.h>
 
 int		main(int argc, char **argv)
 {
