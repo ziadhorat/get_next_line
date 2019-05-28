@@ -6,7 +6,7 @@
 /*   By: zmahomed <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 13:38:37 by zmahomed          #+#    #+#             */
-/*   Updated: 2019/05/28 13:53:34 by zmahomed         ###   ########.fr       */
+/*   Updated: 2019/05/28 14:03:09 by zmahomed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ int		get_next_line(const int fd, char **line)
 	static char	*arr;
 	int			ret;
 
-	(void)line;
 	if ((fd < 0 || line == NULL || read(fd, buf, 0) < 0))
 		return (-1);
 	ret = read(fd, buf, BUFF_SIZE);
