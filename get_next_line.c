@@ -6,46 +6,46 @@
 /*   By: zmahomed <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 13:38:37 by zmahomed          #+#    #+#             */
-/*   Updated: 2019/05/29 12:36:43 by zmahomed         ###   ########.fr       */
+/*   Updated: 2019/05/29 13:15:32 by zmahomed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static char				*copy_line(char **line, char *src)
+static char				*return_line(char **line, char *arr)
 {
-	char				*str;
-	int					pos;
+	char				*to_free;
+	int					i;
 
-	pos = 0;
-	while (src[pos] != '\n' && src[pos] != '\0' && src[pos] != '\r')
-		pos++;
-	*line = ft_strsub(src, 0, pos);
-	if (ft_strcmp(*line, src) == 0)
-		src = NULL;
+	i = 0;
+	while (arr[i] != '\n' && arr[i] != '\0' && arr[i] != '\r')
+		i++;
+	*line = ft_strsub(arr, 0, i);
+	if (ft_strcmp(*line, arr) == 0)
+		arr = NULL;
 	else
 	{
-		str = src;
-		src = ft_strsub(src, pos + 1, ft_strlen(src + pos + 1));
-		free(str);
+		to_free = arr;
+		arr = ft_strsub(arr, i + 1, ft_strlen(arr + i + 1));
+		free(to_free);
 	}
-	return (src);
+	return (arr);
 }
 
-static char				*ft_freejoin(char *tmp, char *buf)
+static char				*join_free(char *arr, char *buf)
 {
 	size_t				len;
-	char				*mem;
+	char				*str;
 
-	if (!tmp || !buf)
+	if (!arr || !buf)
 		return (NULL);
-	len = ((ft_strlen(tmp) + ft_strlen(buf)));
-	if (!(mem = ft_strnew(len)))
+	len = ((ft_strlen(arr) + ft_strlen(buf)));
+	if (!(str = ft_strnew(len)))
 		return (NULL);
-	mem = ft_strcat(mem, tmp);
-	free(tmp);
-	mem = ft_strcat(mem, buf);
-	return (mem);
+	str = ft_strcat(str, arr);
+	free(arr);
+	str = ft_strcat(str, buf);
+	return (str);
 }
 
 int						get_next_line(const int fd, char **line)
@@ -61,12 +61,12 @@ int						get_next_line(const int fd, char **line)
 	while ((ret = read(fd, buf, BUFF_SIZE)) > 0)
 	{
 		buf[ret] = '\0';
-		arr = ft_freejoin(arr, buf);
+		arr = join_free(arr, buf);
 		if (ft_strchr(arr, '\n'))
 			break ;
 	}
 	if (ret < BUFF_SIZE && !ft_strlen(arr))
 		return (0);
-	arr = copy_line(line, arr);
+	arr = return_line(line, arr);
 	return (1);
 }
