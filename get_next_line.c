@@ -6,11 +6,27 @@
 /*   By: zmahomed <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 13:38:37 by zmahomed          #+#    #+#             */
-/*   Updated: 2019/05/29 13:15:32 by zmahomed         ###   ########.fr       */
+/*   Updated: 2019/05/29 13:30:00 by zmahomed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+static char				*join_free(char *arr, char *buf)
+{
+	size_t				len;
+	char				*arr2;
+
+	if (!arr || !buf)
+		return (NULL);
+	len = ((ft_strlen(arr) + ft_strlen(buf)));
+	if (!(arr2 = ft_strnew(len)))
+		return (NULL);
+	arr2 = ft_strcat(arr2, arr);
+	free(arr);
+	arr2 = ft_strcat(arr2, buf);
+	return (arr2);
+}
 
 static char				*return_line(char **line, char *arr)
 {
@@ -32,21 +48,6 @@ static char				*return_line(char **line, char *arr)
 	return (arr);
 }
 
-static char				*join_free(char *arr, char *buf)
-{
-	size_t				len;
-	char				*str;
-
-	if (!arr || !buf)
-		return (NULL);
-	len = ((ft_strlen(arr) + ft_strlen(buf)));
-	if (!(str = ft_strnew(len)))
-		return (NULL);
-	str = ft_strcat(str, arr);
-	free(arr);
-	str = ft_strcat(str, buf);
-	return (str);
-}
 
 int						get_next_line(const int fd, char **line)
 {
@@ -54,7 +55,7 @@ int						get_next_line(const int fd, char **line)
 	static char			*arr;
 	int					ret;
 
-	if ((fd < 0 || line == NULL || read(fd, buf, 0) < 0))
+	if (fd < 0 || line == NULL || read(fd, buf, 0) < 0)
 		return (-1);
 	if (arr == NULL)
 		arr = ft_strnew(0);
