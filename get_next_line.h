@@ -6,7 +6,7 @@
 /*   By: zmahomed <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 13:36:42 by zmahomed          #+#    #+#             */
-/*   Updated: 2019/05/28 14:19:41 by zmahomed         ###   ########.fr       */
+/*   Updated: 2019/05/29 12:36:56 by zmahomed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,8 @@
 # define BUFF_SIZE 100
 # include <stdlib.h>
 # include <unistd.h>
+# include "libft/includes/libft.h"
 
-char	*copy_line(char *dest, char *src);
-int		trim_until(char *str, int delimeter);
 int		get_next_line(const int fd, char **line);
-char	*ft_strcpy(char *dest, char *src);
-int		ft_strlen(char *str);
 
 #endif

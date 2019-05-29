@@ -6,96 +6,67 @@
 /*   By: zmahomed <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 13:38:37 by zmahomed          #+#    #+#             */
-/*   Updated: 2019/05/28 14:03:09 by zmahomed         ###   ########.fr       */
+/*   Updated: 2019/05/29 12:36:43 by zmahomed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int		ft_strlen(char *str)
+static char				*copy_line(char **line, char *src)
 {
-	int	i;
+	char				*str;
+	int					pos;
 
-	i = 0;
-	while (str[i] != '\0')
-		i++;
-	return (i);
-}
-
-char	*ft_strcpy(char *dest, char *src)
-{
-	int i;
-
-	i = 0;
-	while (src[i] != '\0')
+	pos = 0;
+	while (src[pos] != '\n' && src[pos] != '\0' && src[pos] != '\r')
+		pos++;
+	*line = ft_strsub(src, 0, pos);
+	if (ft_strcmp(*line, src) == 0)
+		src = NULL;
+	else
 	{
-		dest[i] = src[i];
-		i++;
+		str = src;
+		src = ft_strsub(src, pos + 1, ft_strlen(src + pos + 1));
+		free(str);
 	}
-	dest[i] = '\0';
-	return (dest);
+	return (src);
 }
 
-char	*copy_line(char *dest, char *src)
+static char				*ft_freejoin(char *tmp, char *buf)
 {
-	int		i;
+	size_t				len;
+	char				*mem;
 
-	i = 0;
-	while (src[i] != '\n' && src[i] != '\0')
-		i++;
-	dest = (char*)malloc(sizeof(char) * (i + 1));
-	i = 0;
-	while (src[i] != '\n' && src[i] != '\0')
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	dest[i] = '\0';
-	return (dest);
+	if (!tmp || !buf)
+		return (NULL);
+	len = ((ft_strlen(tmp) + ft_strlen(buf)));
+	if (!(mem = ft_strnew(len)))
+		return (NULL);
+	mem = ft_strcat(mem, tmp);
+	free(tmp);
+	mem = ft_strcat(mem, buf);
+	return (mem);
 }
 
-int		trim_until(char *str, int delimeter)
+int						get_next_line(const int fd, char **line)
 {
-	int i;
-	int j;
-
-	j = 0;
-	i = 0;
-	while (str[i] != delimeter && str[i] != '\0')
-		i++;
-	if (str[i] == '\0')
-		return (0);
-	i++;
-	while (str[j])
-	{
-		if (str[i])
-			str[j] = str[i];
-		else
-			str[j] = '\0';
-		i++;
-		j++;
-	}
-	str[j] = '\0';
-	return (1);
-}
-
-int		get_next_line(const int fd, char **line)
-{
-	char		buf[BUFF_SIZE + 1];
-	static char	*arr;
-	int			ret;
+	char				buf[BUFF_SIZE + 1];
+	static char			*arr;
+	int					ret;
 
 	if ((fd < 0 || line == NULL || read(fd, buf, 0) < 0))
 		return (-1);
-	ret = read(fd, buf, BUFF_SIZE);
-	buf[ret] = '\0';
-	if (!arr)
+	if (arr == NULL)
+		arr = ft_strnew(0);
+	while ((ret = read(fd, buf, BUFF_SIZE)) > 0)
 	{
-		arr = (char*)malloc(ft_strlen(buf + 1));
-		ft_strcpy(arr, buf);
+		buf[ret] = '\0';
+		arr = ft_freejoin(arr, buf);
+		if (ft_strchr(arr, '\n'))
+			break ;
 	}
-	*line = copy_line(*line, arr);
-	if (trim_until(arr, '\n') == 0)
+	if (ret < BUFF_SIZE && !ft_strlen(arr))
 		return (0);
+	arr = copy_line(line, arr);
 	return (1);
 }
