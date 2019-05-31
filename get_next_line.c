@@ -6,13 +6,13 @@
 /*   By: zmahomed <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 13:38:37 by zmahomed          #+#    #+#             */
-/*   Updated: 2019/05/29 13:30:00 by zmahomed         ###   ########.fr       */
+/*   Updated: 2019/05/31 09:58:27 by zmahomed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static char				*join_free(char *arr, char *buf)
+static char		*join_free(char *arr, char *buf)
 {
 	size_t				len;
 	char				*arr2;
@@ -28,7 +28,7 @@ static char				*join_free(char *arr, char *buf)
 	return (arr2);
 }
 
-static char				*return_line(char **line, char *arr)
+static char		*return_line(char **line, char *arr)
 {
 	char				*to_free;
 	int					i;
@@ -48,8 +48,7 @@ static char				*return_line(char **line, char *arr)
 	return (arr);
 }
 
-
-int						get_next_line(const int fd, char **line)
+int				get_next_line(const int fd, char **line)
 {
 	char				buf[BUFF_SIZE + 1];
 	static char			*arr;
