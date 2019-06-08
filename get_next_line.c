@@ -6,7 +6,7 @@
 /*   By: zmahomed <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 13:38:37 by zmahomed          #+#    #+#             */
-/*   Updated: 2019/05/31 09:58:27 by zmahomed         ###   ########.fr       */
+/*   Updated: 2019/06/08 15:35:41 by zmahomed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static char		*return_line(char **line, char *arr)
 	int					i;
 
 	i = 0;
-	while (arr[i] != '\n' && arr[i] != '\0' && arr[i] != '\r')
+	while (arr[i] != '\n' && arr[i] != '\0')
 		i++;
 	*line = ft_strsub(arr, 0, i);
 	if (ft_strcmp(*line, arr) == 0)
