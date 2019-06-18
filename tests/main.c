@@ -1,4 +1,4 @@
-#include "get_next_line.h"
+#include "../get_next_line.h"
 #include <fcntl.h>
 
 int		main(int argc, char **argv)
